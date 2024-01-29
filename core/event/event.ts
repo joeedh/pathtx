@@ -1,7 +1,7 @@
 import {Unit} from '../units'
 
-type IEventTypeBase<Type, Value> = {
-  type: Type
+type IEventTypeBase<Type extends string, Value> = {
+  readonly type: Type
   value: Value
   name?: string /** defaults to key in owning object literal. */
   uiName?: string
@@ -11,9 +11,9 @@ type IEventTypeBase<Type, Value> = {
   allowCyclic?: boolean /** Default to false */
 }
 
-export interface IDependProperty extends IEventTypeBase<'depend', never> {}
+export type IDependProperty = IEventTypeBase<'depend', never>
 
-interface INumProperty<Type extends string, Value = number> extends IEventTypeBase<Type, Value> {
+type INumProperty<Type extends string, Value = number> = IEventTypeBase<Type, Value> & {
   min?: Value
   max?: Value
   baseUnit?: Unit
@@ -21,40 +21,97 @@ interface INumProperty<Type extends string, Value = number> extends IEventTypeBa
   sliderExponent?: number
 }
 
-export interface IFloatProperty extends INumProperty<'float', number> {
+export type IFloatProperty = INumProperty<'float', number> & {
   decimals?: number
 }
-
-export interface IIntProperty extends INumProperty<'int', number> {
-  radix?: 2 | 10 | 16
+export type IIntProperty = INumProperty<'int', number> & {
+  radix: 2 | 10 | 16
 }
-
 export type IStringProperty = IEventTypeBase<'string', string>
+export type IPointerDown = IEventTypeBase<'pointerdown', PointerEvent>
 
-export type IProperty = IDependProperty | IFloatProperty | IIntProperty | IStringProperty
-export type EventSet = {readonly [k: string]: IProperty}
+export type IProperty = IPointerDown | IDependProperty | IFloatProperty | IIntProperty | IStringProperty
 
-export class Emitter {
-  static defineSlots<Property extends IProperty = IProperty>(): EventSet {
-    return {} as const
-  }
-}
+//export type EventSet<T> = {[P in keyof T]: IProperty}
+export type EventSet = {[k: string]: IProperty}
 
-export class Test extends Emitter {
-  static defineSlots() {
-    return {
-      f1: {type: 'string', value: 's'},
-      f2: {type: 'float', value: 0},
-    } as const
-  }
-}
+export type PropTypes = 'depend' | 'string' | 'float' | 'int'
+
+export type Valid<T> = {[P in keyof T]: T[P] extends IProperty ? T[P] : never}
 
 interface IEventProperty<Type, Name, Value> {
   value: Value
+  name: Name
 
-  trigger(): void
+  trigger(value?: Value): void
+
+  connect(dest: IEventProperty<Type, string, Value>): void
 }
 
-export type EventTypes<ES extends EventSet> = {[P in keyof ES]: ES[P]['type']}
+type EventTypes<ES extends {[k: string]: IProperty}> = {
+  [P in keyof ES]: IEventProperty<ES[P]['type'], P, ES[P]['value']>
+}
+type EventValids<ES extends {[k: string]: IProperty}> = keyof ES
 
-let a: EventTypes<ReturnType<(typeof Test)['defineSlots']>> | undefined
+export type IEmitter = {
+  defineSlots(): EventSet
+}
+export type EventBag<Class extends IEmitter> = EventTypes<ReturnType<Class['defineSlots']>>
+export type ValidEvents<Class extends IEmitter> = EventValids<ReturnType<Class['defineSlots']>>
+
+//return t as IProperty
+/*
+return t as ({
+  readonly [P in keyof T as P extends 'type' ? P : never] : T[P]
+} & {
+  [P in keyof T as P extends 'type' ? never : P] : T[P]
+})*/
+
+export class Emitter extends HTMLElement {
+  constructor() {
+    super()
+  }
+
+  defineSlots(): EventSet {
+    return {}
+  }
+}
+
+export class RealEmitter<T extends IEmitter> extends Emitter {
+  constructor() {
+    super()
+  }
+
+  defineSlots() {
+    return {}
+  }
+
+  slots: EventBag<T>
+
+  fireEvent(event: ValidEvents<T>, data: any): void {
+    //
+  }
+}
+
+export class Test extends RealEmitter<Test> {
+  defineSlots() {
+    return {
+      ...super.defineSlots(),
+      f1    : {type: 'string', value: 's'} as IStringProperty,
+      f2    : {type: 'float', value: 0} as IFloatProperty,
+      i1    : {type: 'float', value: 0} as IFloatProperty,
+      depend: {type: 'depend'} as IDependProperty,
+    }
+  }
+}
+
+const g = new Test()
+g.fireEvent('f1', {})
+
+let a = {} as unknown as EventBag<Test>
+a.f1.value = 's'
+a.f2.value = 3
+a.i1.value = 4
+a.f1.trigger()
+
+

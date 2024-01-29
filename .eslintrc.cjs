@@ -10,7 +10,7 @@ module.exports = {
     '@typescript-eslint',
   ],
   'rules': {
-    'curly' : 'error',
+    'curly': 'error',
     '@typescript-eslint/no-unused-vars': ['warn'],
     'prefer-const': ['warn'],
     'no-constant-condition': ['warn'],
@@ -29,6 +29,7 @@ module.exports = {
       {selector: 'function', format: ['camelCase']},
       {selector: 'variable', format: ['camelCase']},
     ],
+    '@typescript-eslint/no-explicit-any': 'off',
   },
   'ignorePatterns': [],
-};
+}

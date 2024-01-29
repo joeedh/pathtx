@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
+    "noImplicitAny": true,
     "target": "es6",
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -27,6 +28,7 @@
   },
   "files": [
     "core/index.ts",
+    "bindings/index.ts",
     "util/index.ts",
     "core/units/index.ts"
   ],
