@@ -1,1 +1,31 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "es6",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": [
+      "dom",
+      "scripthost",
+      "es2017"
+    ],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "pretty": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "noEmitOnError": false,
+    "declaration": false,
+    "noEmit": true,
+    "noImplicitThis": true,
+    "listEmittedFiles": false
+  },
+  "files": [
+    "core/index.ts"
+  ]
+}
+
 

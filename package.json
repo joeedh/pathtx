@@ -1,9 +1,16 @@
 {
   "devDependencies": {
     "@pathtx/prettier": "^3.3.0-dev",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
     "esbuild": "^0.20.0",
+    "eslint": "^8.56.0",
     "typescript": "^5.3.3"
   },
   "type": "module",
-  "name": "pathtx"
+  "name": "pathtx",
+  "scripts": {
+    "build": "node esbuilder.js",
+    "watch": "node esbuilder.js --watch",
+    "typecheck": "tsc --watch"
+  }
 }
