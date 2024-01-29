@@ -1,9 +1,6 @@
 {
   "type": "module",
   "name": "@pathtx/util",
-  "workspaces": [
-    "./*"
-  ],
   "scripts": {
     "build": "esbuild",
     "watch": "esbuild --watch",

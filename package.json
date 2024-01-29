@@ -12,5 +12,10 @@
     "build": "node esbuilder.js",
     "watch": "node esbuilder.js --watch",
     "typecheck": "tsc --watch"
-  }
+  },
+  "workspaces": [
+    "core",
+    "core/*",
+    "util"
+  ]
 }

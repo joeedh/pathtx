@@ -7,7 +7,7 @@
     "lib": [
       "dom",
       "scripthost",
-      "es2017"
+      "es2022"
     ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -21,11 +21,15 @@
     "declaration": false,
     "noEmit": true,
     "noImplicitThis": true,
-    "listEmittedFiles": false
+    "listEmittedFiles": false,
+    "paths": {
+    }
   },
   "files": [
-    "core/index.ts"
-  ]
+    "core/index.ts",
+    "util/index.ts",
+    "core/units/index.ts"
+  ],
 }
 
 

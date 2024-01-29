@@ -10,6 +10,7 @@ module.exports = {
     '@typescript-eslint',
   ],
   'rules': {
+    'curly' : 'error',
     '@typescript-eslint/no-unused-vars': ['warn'],
     'prefer-const': ['warn'],
     'no-constant-condition': ['warn'],
@@ -20,6 +21,13 @@ module.exports = {
         'allowString': false,
         'allowNumber': true,
       },
+    ],
+    '@typescript-eslint/naming-convention': [
+      'warn', {selector: 'interface', prefix: ['I'], format: ['PascalCase']},
+      {selector: 'class', format: ['PascalCase']},
+      {selector: 'method', format: ['camelCase']},
+      {selector: 'function', format: ['camelCase']},
+      {selector: 'variable', format: ['camelCase']},
     ],
   },
   'ignorePatterns': [],
