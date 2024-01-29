@@ -4,7 +4,7 @@ import fs from 'fs';
 import http from 'http';
 import path from 'path';
 
-const PORT = 5007;
+const PORT = 6001;
 const HOST = "localhost"
 
 const INDEX = "index.html"

@@ -1,6 +1,9 @@
 {
   "devDependencies": {
+    "@pathtx/prettier": "^3.3.0-dev",
     "esbuild": "^0.20.0",
     "typescript": "^5.3.3"
-  }
+  },
+  "type": "module",
+  "name": "pathtx"
 }
